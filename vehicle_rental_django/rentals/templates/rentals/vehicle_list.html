@@ -1,0 +1,36 @@
+{% extends 'rentals/base.html' %}
+{% block title %}Vehicles{% endblock %}
+
+{% block content %}
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+    <h2>Available Vehicles</h2>
+    <a href="{% url 'add_vehicle' %}" class="btn btn-primary">+ Add Vehicle</a>
+</div>
+
+<div class="card">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Vehicle Name</th>
+                <th>Type</th>
+                <th>Rent / Day</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for v in vehicles %}
+            <tr>
+                <td>{{ v.vehicle_id }}</td>
+                <td>{{ v.vehicle_name }}</td>
+                <td>{{ v.vehicle_type }}</td>
+                <td>₹{{ v.rent_per_day }}</td>
+                <td><span class="badge badge-green">Available</span></td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5" style="text-align:center;color:#999;">No vehicles available</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

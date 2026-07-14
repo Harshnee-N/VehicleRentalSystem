@@ -1,0 +1,44 @@
+{% extends 'rentals/base.html' %}
+{% block title %}Rental History{% endblock %}
+
+{% block content %}
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+    <h2>Rental History</h2>
+    <a href="{% url 'rent_vehicle' %}" class="btn btn-warning">+ New Rental</a>
+</div>
+
+<div class="card">
+    <table>
+        <thead>
+            <tr>
+                <th>Rental ID</th>
+                <th>Customer</th>
+                <th>Vehicle</th>
+                <th>Days</th>
+                <th>Total Amount</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in rentals %}
+            <tr>
+                <td>{{ r.rental_id }}</td>
+                <td>{{ r.customer.customer_name }}</td>
+                <td>{{ r.vehicle.vehicle_name }}</td>
+                <td>{{ r.days_rented }}</td>
+                <td>₹{{ r.total_amount }}</td>
+                <td>
+                    {% if not r.vehicle.available %}
+                    <a href="{% url 'return_vehicle' r.rental_id %}" class="btn btn-success" style="padding:5px 12px;font-size:12px;">Return</a>
+                    {% else %}
+                    <span class="badge badge-green">Returned</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="6" style="text-align:center;color:#999;">No rental records yet</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'rentals/base.html' %}
+{% block title %}Dashboard - Vehicle Rental System{% endblock %}
+
+{% block content %}
+<h2>Dashboard</h2>
+
+<div class="stat-grid">
+    <div class="stat-card">
+        <div class="number">{{ total_vehicles }}</div>
+        <div class="label">Total Vehicles</div>
+    </div>
+    <div class="stat-card">
+        <div class="number">{{ available }}</div>
+        <div class="label">Available Now</div>
+    </div>
+    <div class="stat-card">
+        <div class="number">{{ total_customers }}</div>
+        <div class="label">Customers</div>
+    </div>
+    <div class="stat-card">
+        <div class="number">{{ total_rentals }}</div>
+        <div class="label">Total Rentals</div>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Recent Rentals</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Rental ID</th>
+                <th>Customer</th>
+                <th>Vehicle</th>
+                <th>Days</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in recent_rentals %}
+            <tr>
+                <td>{{ r.rental_id }}</td>
+                <td>{{ r.customer.customer_name }}</td>
+                <td>{{ r.vehicle.vehicle_name }}</td>
+                <td>{{ r.days_rented }}</td>
+                <td>₹{{ r.total_amount }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5" style="text-align:center;color:#999;">No rentals yet</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div style="display:flex; gap:12px; margin-top:10px;">
+    <a href="{% url 'add_vehicle' %}"  class="btn btn-primary">+ Add Vehicle</a>
+    <a href="{% url 'add_customer' %}" class="btn btn-success">+ Add Customer</a>
+    <a href="{% url 'rent_vehicle' %}" class="btn btn-warning">Rent a Vehicle</a>
+</div>
+{% endblock %}
